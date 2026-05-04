@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SnowPlus · Ski Pre-Season Training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #EEE8DC; --bg2: #E6DFD1; --accent: #C84A18;
+      --text: #1A1A1A; --mid: #555; --light: #999;
+      --border: rgba(26,26,26,0.14); --border-soft: rgba(26,26,26,0.07);
+    }
+    html { background: var(--bg); color: var(--text); }
+    body { font-family: 'Noto Sans TC', sans-serif; max-width: 480px; margin: 0 auto; padding: 0 0 env(safe-area-inset-bottom, 20px); line-height: 1.6; }
+
+    /* COVER */
+    .cover { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 48px 32px; border-bottom: 1px solid var(--border); }
+    .cover-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--mid); text-transform: uppercase; margin-bottom: 20px; }
+    .cover-title { font-family: 'Noto Serif TC', serif; font-size: clamp(42px, 12vw, 58px); font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .cover-sub { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 48px; }
+    .rider-wrap { display: flex; justify-content: center; margin: 20px 0 40px; }
+    .cover-quote { font-family: 'Noto Serif TC', serif; font-size: 15px; line-height: 1.75; color: var(--mid); border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 40px; font-style: italic; }
+    .cover-foot { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--light); text-transform: uppercase; padding-top: 24px; border-top: 1px solid var(--border); }
+
+    /* TOC */
+    .toc { padding: 48px 32px; border-bottom: 1px solid var(--border); }
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--light); text-transform: uppercase; margin-bottom: 32px; }
+    .toc-cat { margin-bottom: 24px; }
+    .toc-cat-row { display: flex; gap: 12px; align-items: baseline; margin-bottom: 4px; }
+    .toc-letter { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 700; min-width: 16px; }
+    .toc-zh { font-size: 13px; font-weight: 500; }
+    .toc-en { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mid); letter-spacing: 0.06em; margin-left: 28px; margin-bottom: 8px; }
+    .toc-moves { margin-left: 28px; }
+    .toc-move { display: flex; gap: 10px; align-items: baseline; padding: 4px 0; border-bottom: 1px solid var(--border-soft); }
+    .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light); min-width: 28px; }
+
+
+
+    /* INTRO / SAFETY / DIFFICULTY */
+    .intro { padding: 34px 26px 38px; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, #EEE8DC 0%, #E9E2D5 100%); }
+    .intro-kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--light); text-transform: uppercase; margin-bottom: 18px; }
+    .intro-kicker::before { content: ''; width: 18px; height: 1px; background: var(--accent); display: block; }
+    .intro-panel { padding: 24px 22px; border: 1px solid rgba(26,26,26,0.09); border-radius: 22px; background: rgba(255,255,255,0.36); box-shadow: 0 16px 34px rgba(26,26,26,0.045); }
+    .intro-title { font-size: 24px; font-weight: 800; line-height: 1.42; letter-spacing: -0.03em; margin-bottom: 14px; color: var(--text); }
+    .intro-body { font-size: 14px; color: var(--mid); line-height: 1.95; margin-bottom: 0; }
+    .intro-divider { height: 1px; background: var(--border-soft); margin: 22px 0; }
+    .intro-grid { display: grid; gap: 10px; margin: 0; }
+    .intro-card { border: 1px solid rgba(26,26,26,0.08); border-radius: 15px; padding: 14px 15px; background: rgba(255,255,255,0.34); }
+    .intro-card-title { display:flex; align-items:center; gap:8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 7px; font-weight: 700; }
+    .intro-card-title::before { content:''; width:7px; height:7px; border-radius:50%; background: var(--accent); opacity:.75; }
+    .intro-card-body { font-size: 12.5px; color: var(--mid); line-height: 1.75; }
+    .safety-note { margin-top: 12px; padding: 15px 16px; border: 1px solid rgba(200,74,24,0.28); background: rgba(255,255,255,0.28); border-radius: 15px; }
+    .safety-title { display:flex; align-items:center; gap:8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 7px; font-weight: 700; }
+    .safety-title::before { content:'!'; display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border:1px solid var(--accent); border-radius:50%; font-size:10px; }
+    .safety-body { font-size: 12.5px; color: var(--mid); line-height: 1.75; }
+    .difficulty { display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin: 2px 0 12px; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg2); }
+    .difficulty-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--light); text-transform: uppercase; }
+    .difficulty-val { font-size: 11px; font-weight: 700; color: var(--accent); }
+
+    /* CATEGORY */
+    .category { border-bottom: 1px solid var(--border); }
+    .cat-header { padding: 40px 32px 24px; background: var(--bg2); }
+    .cat-tag { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+    .cat-letter { font-family: 'JetBrains Mono', monospace; font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .cat-vr { width: 1px; height: 36px; background: var(--border); }
+    .cat-name-zh { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .cat-name-en { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--accent); }
+    .cat-desc { font-size: 13px; color: var(--mid); line-height: 1.7; margin-bottom: 12px; }
+    .cat-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--light); }
+
+    /* EXERCISE */
+    .exercise { padding: 28px 32px; border-top: 1px solid var(--border-soft); }
+    .ex-no { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--light); margin-bottom: 6px; }
+    .ex-no b { color: var(--accent); font-size: 15px; }
+    .ex-zh { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+    .ex-en { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--mid); margin-bottom: 12px; }
+    .ex-desc { font-size: 13px; color: var(--mid); line-height: 1.7; margin-bottom: 20px; }
+    .ex-table { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+    .tc { flex: 1; padding: 10px 8px; text-align: center; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
+    .tc:last-child { border-right: none; }
+    .tc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--light); }
+    .tc-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; }
+    .tc-unit { font-size: 10px; font-weight: 400; color: var(--mid); }
+    .kp-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .kp-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--accent); font-weight: 700; }
+    .kp-zh { font-size: 11px; color: var(--light); }
+    .kp { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
+    .kp-n { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 700; min-width: 20px; padding-top: 2px; }
+    .kp-t { font-size: 13px; line-height: 1.6; }
+
+    /* CALLOUT */
+    .callout { margin: 20px 0; padding: 16px 18px; background: var(--bg2); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; }
+    .callout-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
+    .callout-body { font-size: 12px; color: var(--mid); line-height: 1.65; }
+
+    /* SEC FOOTER */
+    .sec-foot { display: flex; justify-content: space-between; padding: 12px 32px; background: var(--bg2); border-top: 1px solid var(--border); }
+    .sf-cat { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light); }
+    .sf-pg { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--light); }
+
+    /* SCHEDULE */
+    .schedule { padding: 40px 32px; }
+    .schedule-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--light); text-transform: uppercase; margin-bottom: 24px; }
+    .schedule-en { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* PHYSIO BADGE */
+    .physio-badge { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border: 1px solid var(--accent); border-radius: 20px; margin-bottom: 28px; width: fit-content; }
+    .physio-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .physio-text { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; font-weight: 700; }
+    .edition-line { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--mid); text-transform: uppercase; margin-bottom: 8px; }
+
+    @keyframes float1 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(10deg)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px) rotate(-8deg)} }
+    @keyframes float3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes float4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px) rotate(15deg)} }
+    @keyframes sprayAnim { 0%,100%{opacity:0.4} 50%{opacity:0.7} }
+    .snow-p1 { animation: float1 3s ease-in-out infinite; }
+    .snow-p2 { animation: float2 2.5s ease-in-out infinite; }
+    .snow-p3 { animation: float3 3.5s ease-in-out infinite; }
+    .snow-p4 { animation: float4 2.8s ease-in-out infinite; }
+    .spray { animation: sprayAnim 2s ease-in-out infinite; }
+  
+
+    /* OPEN CUTE FINAL COVER */
+    .cute-final-cover { min-height: auto; padding: 0; border-bottom: 1px solid var(--border); background: #f6f7f7; }
+    .cute-final-cover img { width: 100%; height: auto; display: block; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cute-final-cover">
+  <img src="../assets/open-cute-cover.png" alt="SnowPlus Ski Pre-Season Open Cute cover">
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="intro-kicker">Before You Start · 使用前說明</div>
+  <div class="intro-panel">
+    <div class="intro-title">這不是一般健身課表，<br>而是雪季前的身體準備。</div>
+    <div class="intro-body">這本 Open Edition 適合想在雪季前恢復腿部控制、提升壓刃穩定、減少膝蓋不適、改善左右轉不對稱的滑雪者。訓練目標不是把動作做累，而是讓踝、膝、髖、核心與單腳承重能力更容易支援雪上的轉彎技術。</div>
+    <div class="intro-divider"></div>
+    <div class="intro-grid">
+      <div class="intro-card"><div class="intro-card-title">Beginner · 入門</div><div class="intro-card-body">可作為大多數學員的入門動作。先追求穩定、對稱與可控制，不追求速度或高度。</div></div>
+      <div class="intro-card"><div class="intro-card-title">Intermediate · 中階</div><div class="intro-card-body">需要基本運動習慣與單腳穩定能力。若出現膝內塌、腰代償或疼痛，請退回較基礎版本。</div></div>
+      <div class="intro-card"><div class="intro-card-title">Advanced · 進階</div><div class="intro-card-body">建議在教練或物理治療師確認動作品質後再執行，尤其是跳躍、反應與高負荷單腳動作。</div></div>
+    </div>
+    <div class="safety-note"><div class="safety-title">Safety Note · 安全提示</div><div class="safety-body">若有急性膝、髖、踝疼痛，或近期手術、韌帶傷害、明顯腫脹與不穩定感，請先諮詢醫療或物理治療專業人員，再開始此課表。</div></div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="toc">
+  <div class="section-label">Contents · 目錄</div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">A</span><span class="toc-zh">踝關節複合體</span></div>
+    <div class="toc-en">ANKLE COMPLEX</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">01</span><span>踝背屈靠牆測試</span></div>
+      <div class="toc-move"><span class="toc-num">02</span><span>站姿踝部彈跳</span></div>
+      <div class="toc-move"><span class="toc-num">03</span><span>阻力帶腓骨肌外翻</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">B</span><span class="toc-zh">垂直負荷</span></div>
+    <div class="toc-en">VERTICAL LOAD</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">04</span><span>離心慢速深蹲</span></div>
+      <div class="toc-move"><span class="toc-num">05</span><span>高腳杯深蹲</span></div>
+      <div class="toc-move"><span class="toc-num">06</span><span>深蹲跳</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">C</span><span class="toc-zh">減速控制</span></div>
+    <div class="toc-en">DECELERATION</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">07</span><span>落地吸震</span></div>
+      <div class="toc-move"><span class="toc-num">08</span><span>單腿落地</span></div>
+      <div class="toc-move"><span class="toc-num">09</span><span>側向跳穩定落地</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">D</span><span class="toc-zh">側向爆發力</span></div>
+    <div class="toc-en">LATERAL POWER</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">10</span><span>Copenhagen Plank 等長</span></div>
+      <div class="toc-move"><span class="toc-num">11</span><span>側向弓步</span></div>
+      <div class="toc-move"><span class="toc-num">12</span><span>側向跳</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">E</span><span class="toc-zh">旋轉分離</span></div>
+    <div class="toc-en">ROTATIONAL SEPARATION</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">13</span><span>死蟲式</span></div>
+      <div class="toc-move"><span class="toc-num">14</span><span>半跪姿旋轉分離</span></div>
+      <div class="toc-move"><span class="toc-num">15</span><span>站姿繩索旋轉分離</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">F</span><span class="toc-zh">髖關節分離</span></div>
+    <div class="toc-en">HIP DISSOCIATION</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">16</span><span>站姿髖飛機式</span></div>
+      <div class="toc-move"><span class="toc-num">17</span><span>側臥蚌式</span></div>
+      <div class="toc-move"><span class="toc-num">18</span><span>負重站姿髖旋轉</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">G</span><span class="toc-zh">單腳承重</span></div>
+    <div class="toc-en">SINGLE-LEG</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">19</span><span>單腿羅馬尼亞硬舉</span></div>
+      <div class="toc-move"><span class="toc-num">20</span><span>後腳抬高分腿蹲</span></div>
+      <div class="toc-move"><span class="toc-num">21</span><span>單腿側向穩定</span></div>
+    </div>
+  </div>
+  <div class="toc-cat">
+    <div class="toc-cat-row"><span class="toc-letter">H</span><span class="toc-zh">切刃轉換反應</span></div>
+    <div class="toc-en">EDGE TRANSITION REACTIVITY</div>
+    <div class="toc-moves">
+      <div class="toc-move"><span class="toc-num">22</span><span>側向反應跳</span></div>
+      <div class="toc-move"><span class="toc-num">23</span><span>深蹲跳穩定落地</span></div>
+      <div class="toc-move"><span class="toc-num">24</span><span>多向反應跳</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- A · ANKLE COMPLEX -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">A</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">踝關節複合體</div><div class="cat-name-en">ANKLE COMPLEX — Dorsiflexion, Eversion & Tibialis Control</div></div>
+    </div>
+    <div class="cat-desc">踝關節是雙板咬刃的地基——背屈限制直接影響膝蓋前推角度，腓骨肌控制外翻穩定側刃。先評估，再激活，再強化。這三個動作從「確認問題」開始。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>01</b></div>
+    <div class="ex-zh">踝背屈靠牆測試</div>
+    <div class="ex-en">Wall Ankle Dorsiflexion Test</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">評估踝背屈活動度，是雙板膝前傾與壓刃的先決條件。單側限制會導致膝外翻代償，是最常見的雙板障礙。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">1</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">5<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">評估</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">0</span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">腳趾距牆約 10 cm，腳跟不離地</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">膝蓋沿第二趾方向向牆推進</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">記錄左右膝蓋是否能碰到牆面</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">限制側優先做後續踝關節訓練</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>02</b></div>
+    <div class="ex-zh">站姿踝部彈跳</div>
+    <div class="ex-en">Standing Ankle Bounce</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">激活踝關節彈性儲能，強化脛前肌離心控制，是壓刃轉換的神經預備動作。節奏感是關鍵，不是高度。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">20</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">彈跳</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">站立，雙腳輕微屈膝</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">前腳掌彈起落地，腳跟不碰地</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">節奏規律，不要跳高，強調彈性回饋</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">接觸地面時間越短越好，感受「彈簧感」</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>03</b></div>
+    <div class="ex-zh">阻力帶腓骨肌外翻</div>
+    <div class="ex-en">Banded Peroneal Eversion</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">腓骨肌是外側刃穩定的重要主動肌。阻力帶強化對抗內翻的控制力，防止咬刃時踝部塌陷。雙板需要左右腳獨立管理踝外翻與外側刃穩定，因此此動作在雙板課表中被獨立列為訓練重點。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">15<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">坐姿，阻力帶繞在前腳掌外側</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">腳掌向外翻，感受腓骨肌收縮</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">頂峰等 1 秒，慢速回到起始</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">外翻控制 = 外側刃咬雪的地基</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">A · ANKLE COMPLEX</span><span class="sf-pg">01–03</span></div>
+</section>
+
+<!-- B · VERTICAL LOAD -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">B</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">垂直負荷</div><div class="cat-name-en">VERTICAL LOAD — Extension Timing & Eccentric Quad Control</div></div>
+    </div>
+    <div class="cat-desc">雙板壓刃需要強大的股四頭肌離心控制。在壓力增加時穩住膝關節，在釋放時快速伸展。這三個動作建立「壓→撐→放」的完整肌力鏈。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>04</b></div>
+    <div class="ex-zh">離心慢速深蹲</div>
+    <div class="ex-en">Eccentric Slow Squat</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">以 5 秒離心速度下蹲，訓練股四頭肌在壓刃過程中的負重控制能力。這是所有速度訓練的前提。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">5-0-1</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">雙腳肩寬，腳尖朝前或微朝外</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">五秒慢速下蹲到大腿平行地面</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">快速站起，完整伸展髖膝踝</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">膝蓋全程對齊腳尖，不內塌</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>05</b></div>
+    <div class="ex-zh">高腳杯深蹲</div>
+    <div class="ex-en">Goblet Squat</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">前置負荷協助軀幹直立，同時訓練髖踝協調。底部停頓強化切弧線「最低點」的控制力。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">雙手握啞鈴胸前，手肘指向地面</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">深蹲時腳跟不離地（踝受限可微墊高）</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">底部停 1 秒，確認穩定後站起</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">軀幹保持直立，不前傾</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>06</b></div>
+    <div class="ex-zh">深蹲跳</div>
+    <div class="ex-en">Squat Jump</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">從深蹲底部爆發起跳，訓練伸展反射（SSC）啟動速度，對應雪上壓刃釋放動作。離心控制夠了才做這個。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">下蹲到大腿平行，不停頓直接起跳</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">全力向上，手臂輔助擺動</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">落地膝蓋彎曲吸震，腳踝背屈</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">確認落地穩定後再做下一跳</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">B · VERTICAL LOAD</span><span class="sf-pg">04–06</span></div>
+</section>
+
+<!-- C · DECELERATION -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">C</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">減速控制</div><div class="cat-name-en">DECELERATION — Edge Absorption & Landing Control</div></div>
+    </div>
+    <div class="cat-desc">高速壓刃後的減速需要全腳鏈的離心控制，不是骨骼鎖死停止。訓練「軟著陸」，讓膝蓋和踝關節在衝擊中主動工作，而不是被動承受。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>07</b></div>
+    <div class="ex-zh">落地吸震</div>
+    <div class="ex-en">Landing Absorption</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">從小台跨步落下，練習膝踝髖三關節同步彎曲吸收衝擊，是切刃減速的基礎動作模式。初學者先用 step-down，確認穩定後再進階到低高度 drop landing。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">控制</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">站在小台上，腳尖向前</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">跨步落下（不跳下），感受衝擊力</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">三關節同步彎曲，不要單一關節鎖緊</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">落地後靜止 2 秒確認穩定再重複</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>08</b></div>
+    <div class="ex-zh">單腿落地</div>
+    <div class="ex-en">Single-Leg Landing</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">單腿版落地吸震，模擬雙板轉彎過程中外側腳的承重比例，強化外側刃控制能力。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">控制</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腳站在小台邊緣</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">輕跳落到同腳，彎膝吸震</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">落地後膝蓋不往內塌，對齊腳尖</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">外側腳（outside ski）優先訓練</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>09</b></div>
+    <div class="ex-zh">側向跳穩定落地</div>
+    <div class="ex-en">Lateral Bound to Stick</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">側向起跳落地，訓練橫向動力鏈的穩定控制，對應雙板左右壓刃切換時的側向衝擊力。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發+停</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腳側向爆發起跳，對側腳落地穩定</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">落地後停住 2 秒，不晃動</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">視線固定前方，不低頭看腳</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">落地瞬間腳踝背屈、膝蓋向前推</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">C · DECELERATION</span><span class="sf-pg">07–09</span></div>
+</section>
+
+<!-- D · LATERAL POWER -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">D</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">側向爆發力</div><div class="cat-name-en">LATERAL POWER — Hip Adductor Drive (Outside Ski Bias)</div></div>
+    </div>
+    <div class="cat-desc">髖內收肌鏈協助外側腳在側向負荷下維持穩定與壓力傳導，是 outside ski 承重與切刃穩定的重要支撐系統。此組訓練強調側向承重、髖部穩定與外側腳壓力管理。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>10</b></div>
+    <div class="ex-zh">Copenhagen Plank 等長</div>
+    <div class="ex-en">Copenhagen Plank Isometric</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Advanced · 進階</span></div>
+    <div class="ex-desc">懸空腿等長支撐，針對性訓練內收肌鏈的穩定輸出，是外側刃壓力控制的深層基礎。雙板最常被低估的訓練動作。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">HOLD</span><span class="tc-val">30<span class="tc-unit">秒/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">等長</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">側躺，上方腿搭在長凳或椅子上</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">髖部抬起，身體成一直線</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">下方腿可懸空（進階）或輕觸地面</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">感受大腿內側收縮，不要用腰代償</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>11</b></div>
+    <div class="ex-zh">側向弓步</div>
+    <div class="ex-en">Lateral Lunge</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">側向踏出，訓練髖內收肌離心控制與膝蓋側向穩定，模擬切刃時外側腿的承重動作。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">側向大步踏出，重心移到側向腳</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">踏出腳膝蓋對齊腳尖，不內塌</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">另一腳保持伸直，感受大腿內側拉伸</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">慢速回到站立，感受內收肌控制</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>12</b></div>
+    <div class="ex-zh">側向跳</div>
+    <div class="ex-en">Lateral Bound</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">爆發性側向跳躍，訓練髖外展與內收的爆發力轉換，對應雙板左右快速切刃動作的側向速度分量。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腳側向爆發起跳</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">對側腳落地吸震穩定</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">髖部保持水平，不傾斜</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">每次落地穩定後再起跳，不連跳</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">D · LATERAL POWER</span><span class="sf-pg">10–12</span></div>
+</section>
+
+<!-- E · ROTATIONAL SEPARATION -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">E</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">旋轉分離</div><div class="cat-name-en">ROTATIONAL SEPARATION — Upper/Lower Body Decoupling</div></div>
+    </div>
+    <div class="cat-desc">雙板轉彎的核心機制是上下半身分離——肩膀先轉向，骨盆和下肢滯後跟進。這個解耦能力決定弧線流暢度，也是初學者與進階者最顯著的技術差距。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>13</b></div>
+    <div class="ex-zh">死蟲式</div>
+    <div class="ex-en">Dead Bug</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">仰臥抵抗脊椎旋轉，建立核心抗旋轉基礎，確保旋轉分離時脊椎保持穩定。所有旋轉訓練的前提。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">仰臥，雙臂和雙腿都朝天花板</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">對側手腳同時向外伸展</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">核心持續收緊，腰椎不離地</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">每個動作 4 秒，控制呼吸，不憋氣</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>14</b></div>
+    <div class="ex-zh">半跪姿旋轉分離</div>
+    <div class="ex-en">Half-Kneeling Rotation</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">骨盆固定，軀幹主動旋轉，直接訓練雙板轉彎所需的胸椎旋轉與髖腰分離。感受「只有上半身在動」。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">半跪姿，前腳踩實，後膝跪地</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">雙手交叉胸前或持輕啞鈴</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">骨盆不動，只轉動胸椎和肩膀</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">旋轉到底部，停 1 秒感受上下分離</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>15</b></div>
+    <div class="ex-zh">站姿繩索旋轉分離</div>
+    <div class="ex-en">Standing Cable Rotational Separation</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">站姿持繩索旋轉，同時抵抗側向拉力，完整模擬雙板轉彎的「抗旋轉 + 主動旋轉」結合模式。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">繩索機一側站立，雙手持把</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">下半身固定，從胸椎主動旋轉</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">旋轉方向遠離繩索機（抵抗外拉力）</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">骨盆和膝蓋全程朝正前方，不跟著轉</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">E · ROTATIONAL SEPARATION</span><span class="sf-pg">13–15</span></div>
+</section>
+
+<!-- F · HIP DISSOCIATION -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">F</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">髖關節分離</div><div class="cat-name-en">HIP DISSOCIATION — Femoral IR/ER under Stable Pelvis</div></div>
+    </div>
+    <div class="cat-desc">髖關節的股骨旋轉控制是雙板轉向神經模式的核心。前刃、後刃、切刃換邊，都源自骨盆穩定下的股骨主動內外旋。這組動作重訓神經，不只重力量。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>16</b></div>
+    <div class="ex-zh">站姿髖飛機式</div>
+    <div class="ex-en">Standing Hip Airplane</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">單腿站立，骨盆主動旋轉，訓練髖外展外旋肌群的穩定控制，是切刃時骨盆不傾斜的關鍵神經動作。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腿站立，支撐腳微彎</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">身體向前傾，對側腳後伸保持平衡</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">骨盆主動向上旋轉（支撐腳同側往上）</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">停 1–2 秒感受髖外旋肌群收縮</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>17</b></div>
+    <div class="ex-zh">側臥蚌式</div>
+    <div class="ex-en">Side-Lying Clamshell</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Beginner · 入門</span></div>
+    <div class="ex-desc">激活臀中肌和深層髖外旋肌群，在雙板壓刃時防止膝蓋內塌，也維持骨盆在切弧時的穩定高度。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">15<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">側躺，膝蓋彎曲約 90 度，腳跟對齊</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">保持腳跟合攏，膝蓋向天花板打開</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">骨盆不後翻，旋轉來自髖關節</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">可加阻力帶在膝蓋上方增加難度</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>18</b></div>
+    <div class="ex-zh">負重站姿髖旋轉</div>
+    <div class="ex-en">Loaded Standing Hip IR/ER</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">單腿站立持啞鈴，主動進行股骨內外旋，模擬雙板轉向時的神經控制模式。骨盆穩定是前提。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腿站立，手持啞鈴在胸前</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">支撐腳股骨主動向內旋轉（膝蓋轉向內側）</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">再反向外旋（膝蓋轉向外側）</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">骨盆全程保持水平，不跟著旋轉</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">F · HIP DISSOCIATION</span><span class="sf-pg">16–18</span></div>
+</section>
+
+<!-- G · SINGLE-LEG -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">G</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">單腳承重</div><div class="cat-name-en">SINGLE-LEG — Outside Ski Stance Loading</div></div>
+    </div>
+    <div class="cat-desc">雙板切刃時外側腿是主要承重腳，需要承受全身重量加上雪面反力。建立「外側刃腳」的肌力儲備、本體感覺與本能穩定反應。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>19</b></div>
+    <div class="ex-zh">單腿羅馬尼亞硬舉</div>
+    <div class="ex-en">Single-Leg RDL</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">單腿髖鉸鏈，訓練膕繩肌與臀肌的協調控制，強化外側腳在彎曲狀態下的姿勢穩定。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腿站立，支撐膝微彎</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">髖部主導前傾，後腳往後抬起</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">背部保持中立，不圓背</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">回到站立時臀部完全夾緊</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>20</b></div>
+    <div class="ex-zh">後腳抬高分腿蹲</div>
+    <div class="ex-en">Bulgarian Split Squat</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Advanced · 進階</span></div>
+    <div class="ex-desc">後腳抬高的分腿深蹲，產生大量單側股四頭肌和臀肌離心負荷，直接模擬外側刃壓刃的承重情境。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">3-0-1</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">後腳搭在長凳上，前腳向前踏出</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">慢速下蹲，前膝對齊腳尖</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">後膝不碰地，保持懸空</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">站起時前腳跟發力推地，不借後腳力量</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>21</b></div>
+    <div class="ex-zh">單腿側向穩定</div>
+    <div class="ex-en">Single-Leg Lateral Stability</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">單腳站在不穩定面或進行側向小踏，模擬外側腳在切刃衝擊下的穩定反應，強化本體感覺。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">控制</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腿站立，進行小幅側向踩踏或平衡板挑戰</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">腳踝保持穩定，不過度搖晃</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">視線固定前方，不低頭看腳</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">進階：閉眼或加平衡板</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">G · SINGLE-LEG</span><span class="sf-pg">19–21</span></div>
+</section>
+
+<!-- H · EDGE TRANSITION REACTIVITY -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-tag">
+      <span class="cat-letter">H</span><div class="cat-vr"></div>
+      <div><div class="cat-name-zh">切刃轉換反應</div><div class="cat-name-en">EDGE TRANSITION REACTIVITY — Pressure Transfer & Multi-Directional Response</div></div>
+    </div>
+    <div class="cat-desc">切刃交換是雙板表現的頂點——從一側刃快速轉移到另一側，需要神經肌肉系統在 0.2 秒內重組壓力分配。這三個動作訓練的不是爆發力，而是「反應中的控制」。</div>
+    <div class="cat-count">3 MOVEMENTS</div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>22</b></div>
+    <div class="ex-zh">側向反應跳</div>
+    <div class="ex-en">Lateral Reactive Bound</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Advanced · 進階</span></div>
+    <div class="ex-desc">側向落地後立即反彈，不停頓，訓練快速邊對邊壓力轉移的反射鏈，是切刃換邊的地面版本。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">反彈</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">單腳側向跳，對側腳落地不停頓立即反彈</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">落地接觸地面時間越短越好</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">身體重心保持穩定，不上下搖晃</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">節奏規律，感受彈性反射鏈建立</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>23</b></div>
+    <div class="ex-zh">深蹲跳穩定落地</div>
+    <div class="ex-en">Jump to Stabilization</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Intermediate · 中階</span></div>
+    <div class="ex-desc">從深蹲起跳後落地穩定 3 秒，訓練在高衝擊後快速建立可控姿勢，對應壓力釋放與轉換前的穩定需求。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發+停</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">深蹲起跳，全力向上</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">落地後立即建立穩定姿勢，靜止 3 秒</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">落地時三關節（踝膝髖）同步彎曲</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">評估落地穩定度，而非跳躍高度</span></div>
+  </div>
+  <div class="exercise">
+    <div class="ex-no">NO.<b>24</b></div>
+    <div class="ex-zh">多向反應跳</div>
+    <div class="ex-en">Multi-Directional Reactive Jump</div>
+    <div class="difficulty"><span class="difficulty-label">Level</span><span class="difficulty-val">Advanced · 進階</span></div>
+    <div class="ex-desc">教練指令觸發方向，訓練在不預期情況下快速反應並換向，對應雪道上突發地形的即時調整能力。</div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6<span class="tc-unit">次</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">最快反應</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">90<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-head"><span class="kp-label">KEY POINTS</span><span class="kp-zh">· 重點</span></div>
+    <div class="kp"><span class="kp-n">01</span><span class="kp-t">站立預備姿勢，保持彈性膝蓋</span></div>
+    <div class="kp"><span class="kp-n">02</span><span class="kp-t">等待外部指令（前 / 後 / 左 / 右）</span></div>
+    <div class="kp"><span class="kp-n">03</span><span class="kp-t">聽到指令後立即跳向該方向</span></div>
+    <div class="kp"><span class="kp-n">04</span><span class="kp-t">每次落地恢復預備姿勢，等待下一指令</span></div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">H · EDGE TRANSITION REACTIVITY</span><span class="sf-pg">22–24</span></div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule">
+  <div class="schedule-title">Suggested Weekly Schedule · 建議週訓練排程</div>
+  <div class="schedule-en">8-Week Pre-Season Plan</div>
+  <div class="callout">
+    <div class="callout-title">Phase 1 · Weeks 1–3 · 打基礎</div>
+    <div class="callout-body">A + B + C + F：踝關節激活 → 垂直負荷離心 → 落地控制 → 髖分離<br><span class="mono" style="font-size:11px">每週 3 次 · 每次 50–60 分鐘</span></div>
+  </div>
+  <div class="callout" style="margin-top:12px">
+    <div class="callout-title">Phase 2 · Weeks 4–6 · 加入側向與旋轉</div>
+    <div class="callout-body">全部 A–H：加入 D 側向爆發 + E 旋轉分離 + G 單腳<br><span class="mono" style="font-size:11px">每週 4 次 · 每次 60–70 分鐘</span></div>
+  </div>
+  <div class="callout" style="margin-top:12px">
+    <div class="callout-title">Phase 3 · Weeks 7–8 · 雪季前衝刺</div>
+    <div class="callout-body">強調 D + G + H：側向爆發 + 單腳 + 切刃反應，降低離心組數，增加爆發組數<br><span class="mono" style="font-size:11px">每週 3–4 次 · 每次 45–55 分鐘</span></div>
+  </div>
+  <div style="margin-top:32px; padding-top:24px; border-top:1px solid var(--border)">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--light); letter-spacing:0.1em; text-transform:uppercase">SnowPlus · Ski · Version 1 · 2026</div>
+    <div style="font-size:12px; color:var(--mid); margin-top:8px">訓練不改變你的技術，訓練改變你的身體對技術的反應。</div>
+  </div>
+</section>
+
+</body>
+</html>

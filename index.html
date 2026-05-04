@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnowPlus · Ski Pre-Season Training</title>
+  <style>
+    :root {
+      --bg: #EEE8DC;
+      --card: #F7F3ED;
+      --text: #1A1A1A;
+      --muted: #666;
+      --accent: #C84A18;
+      --border: rgba(26,26,26,.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+    }
+    main {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 430px;
+    }
+    .eyebrow,
+    .label,
+    .note strong {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .eyebrow {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(42px, 14vw, 58px);
+      line-height: .96;
+      letter-spacing: -.04em;
+      margin: 0 0 14px;
+      font-weight: 900;
+    }
+    .sub {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .summary {
+      margin: 0 0 28px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 650;
+    }
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.04);
+    }
+    .label {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .open {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .note {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+    }
+    .note strong {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+    .note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+      font-weight: 650;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wrap">
+      <div class="eyebrow">SnowPlus · Pre-Season Training</div>
+      <h1>SKI<br>PRE-SEASON</h1>
+      <div class="sub">Train Better. Ski Better. Every Season.</div>
+      <p class="summary">三個手機閱讀版本：Open Edition 可愛版、Open Edition 真人版、Coach Plus 進階教練版。</p>
+
+      <a class="card" href="./open-cute/">
+        <div class="label">OPEN EDITION · COVER A</div>
+        <div class="title">可愛版</div>
+        <div class="desc">大眾行銷入口版本 · 24 movements · 8 categories。</div>
+        <div class="open">Open →</div>
+      </a>
+
+      <a class="card" href="./open-real/">
+        <div class="label">OPEN EDITION · COVER B</div>
+        <div class="title">真人版</div>
+        <div class="desc">同一份 Open Edition 內容，封面改為真人滑雪主視覺。</div>
+        <div class="open">Open →</div>
+      </a>
+
+      <a class="card" href="./coach-plus/">
+        <div class="label">ADVANCED / COACH EDITION</div>
+        <div class="title">Coach Plus</div>
+        <div class="desc">進階教練版：肌群、神經控制、代償觀察與訓練設計語言。</div>
+        <div class="open">Open →</div>
+      </a>
+
+      <section class="note">
+        <strong>Safety Note</strong>
+        <p>若有急性疼痛、明顯腫脹、近期手術、韌帶或半月板傷害、關節不穩定感，請先諮詢醫療或物理治療專業人員。</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

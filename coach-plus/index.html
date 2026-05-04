@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SnowPlus · Ski Pre-Season Coach Plus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F7F3ED; --bg2: #EDEAE4; --paper: #FAF8F4;
+      --ink: #1C1C1C; --ink-mid: #5A5550; --ink-dim: #9A9490;
+      --red: #C84A18; --red-dim: rgba(200,74,24,0.1);
+      --rule: rgba(28,28,28,0.1); --rule-soft: rgba(28,28,28,0.05);
+    }
+    html { background: var(--bg); color: var(--ink); }
+    body { font-family: 'Noto Sans TC', sans-serif; max-width: 480px; margin: 0 auto; padding: 0 0 env(safe-area-inset-bottom, 20px); line-height: 1.6; }
+
+    /* COVER */
+    .cover { display: flex; min-height: 100vh; border-bottom: 1px solid var(--rule); }
+    .cover-band { width: 48px; flex-shrink: 0; background: #1C1C1C; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 0; }
+    .cover-band-title { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: #fff; text-transform: uppercase; }
+    .cover-band-tag { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; margin-top: 16px; }
+    .cover-content { flex: 1; padding: 48px 28px; display: flex; flex-direction: column; justify-content: center; }
+    .cover-brand { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--ink-dim); text-transform: uppercase; margin-bottom: 28px; }
+    .cover-quote-block { margin-bottom: 40px; }
+    .cover-quote-mark { line-height: 0; margin-bottom: 2px; }
+    .cover-quote-mark::before { content: '\201C'; font-family: Georgia, 'Times New Roman', serif; font-size: 48px; line-height: 1; color: var(--red); opacity: 0.35; display: block; }
+    .cover-quote-text { font-family: 'Noto Serif TC', serif; font-size: 16px; line-height: 1.8; color: var(--ink); font-style: italic; }
+    .cover-quote-attr { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-dim); margin-top: 8px; }
+    .cover-sub-block { padding-top: 28px; border-top: 1px solid var(--rule); }
+    .cover-sub { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+    .cover-desc { font-size: 12px; color: var(--ink-mid); margin-top: 6px; line-height: 1.6; }
+    .cover-meta-line { display: flex; gap: 16px; margin-top: 20px; }
+    .cover-meta-line span { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-dim); letter-spacing: 0.08em; }
+
+    /* PHYSIO BADGE */
+    .physio-badge { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border: 1px solid var(--red); border-radius: 20px; margin-top: 16px; width: fit-content; }
+    .physio-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); }
+    .physio-text { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.16em; color: var(--red); text-transform: uppercase; font-weight: 700; }
+
+    /* MASTHEAD */
+    .masthead { padding: 32px 28px 24px; border-bottom: 1px solid var(--rule); background: var(--bg2); }
+    .masthead-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .brand { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--ink-dim); }
+    .edition-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--red); letter-spacing: 0.08em; }
+    .masthead-rule { height: 1px; background: var(--rule); margin: 12px 0; }
+    .masthead-title { font-family: 'Noto Serif TC', serif; font-size: 26px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+    .masthead-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--red); letter-spacing: 0.1em; margin-top: 6px; }
+
+    /* AXES (category overview) */
+    .axes { padding: 24px 28px; border-bottom: 1px solid var(--rule); }
+    .axes-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; }
+    .axis-row { display: flex; gap: 10px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--rule-soft); }
+    .axis-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--red); font-weight: 700; min-width: 18px; }
+    .axis-text { font-size: 13px; color: var(--ink-mid); }
+
+    /* CATEGORY */
+    .category { border-bottom: 1px solid var(--rule); }
+    .cat-header { padding: 32px 28px 20px; }
+    .cat-index { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
+    .cat-letter { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: var(--red); line-height: 1; }
+    .cat-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--rule); }
+    .cat-name-zh { font-size: 15px; font-weight: 700; color: var(--ink); }
+    .cat-name-en { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--red); margin-top: 2px; }
+    .cat-desc { font-size: 12px; color: var(--ink-mid); line-height: 1.7; }
+
+    /* EXERCISE */
+    .exercise { padding: 24px 28px; border-top: 1px solid var(--rule-soft); }
+    .ex-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .ex-no { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-dim); }
+    .ex-no b { color: var(--red); font-size: 14px; }
+    .ex-coach-mark { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--paper); background: var(--ink); padding: 2px 6px; border-radius: 2px; }
+    .ex-zh { font-size: 17px; font-weight: 700; color: var(--ink); }
+    .ex-en { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; color: var(--ink-mid); margin-bottom: 10px; }
+    .ex-desc { font-size: 12px; color: var(--ink-mid); line-height: 1.7; margin-bottom: 14px; }
+
+    /* MUSCLE BLOCK */
+    .muscle-block { margin-bottom: 14px; }
+    .muscle-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; flex-wrap: wrap; }
+    .muscle-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--ink-dim); min-width: 100px; padding-top: 3px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .chip-p { font-size: 11px; padding: 3px 8px; background: var(--red-dim); color: var(--red); border-radius: 3px; border: 1px solid rgba(200,74,24,0.2); }
+    .chip-s { font-size: 11px; padding: 3px 8px; background: var(--bg2); color: var(--ink-mid); border-radius: 3px; border: 1px solid var(--rule); }
+
+    /* EX TABLE */
+    .ex-table { display: flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+    .tc { flex: 1; padding: 9px 7px; text-align: center; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 3px; }
+    .tc:last-child { border-right: none; }
+    .tc-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; color: var(--ink-dim); }
+    .tc-val { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; color: var(--ink); }
+    .tc-unit { font-size: 9px; font-weight: 400; color: var(--ink-mid); }
+
+    /* KEY POINTS */
+    .kp-section { margin-bottom: 14px; }
+    .kp-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .kp-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--red); font-weight: 700; }
+    .kp-rule { flex: 1; height: 1px; background: var(--rule); }
+    .kp { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 7px; }
+    .kp-n { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--red); font-weight: 700; min-width: 18px; padding-top: 2px; }
+
+    /* COACH CALLOUT */
+    .coach-callout { background: #1C1C1C; border-radius: 6px; padding: 14px 16px; margin-top: 12px; }
+    .coach-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; margin-bottom: 6px; }
+    .coach-body { font-size: 12px; color: #C8C4BE; line-height: 1.65; }
+
+    /* GENERAL CALLOUT */
+    .callout { margin: 16px 0; padding: 14px 16px; background: var(--bg2); border-left: 3px solid var(--red); border-radius: 0 5px 5px 0; }
+    .callout-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; margin-bottom: 5px; }
+    .callout-body { font-size: 12px; color: var(--ink-mid); line-height: 1.65; }
+
+    /* SEC FOOTER */
+    .sec-foot { display: flex; justify-content: space-between; padding: 10px 28px; background: var(--bg2); border-top: 1px solid var(--rule); }
+    .sf-cat { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-dim); }
+    .sf-pg { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--ink-dim); }
+
+    /* SCHEDULE */
+    .schedule { padding: 36px 28px; }
+    .schedule-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--ink-dim); text-transform: uppercase; margin-bottom: 20px; }
+    .schedule-en { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 18px; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover-band">
+    <div class="cover-band-title">Coach Plus</div>
+    <div class="cover-band-tag">SKI</div>
+  </div>
+  <div class="cover-content">
+    <div class="cover-brand">SnowPlus · Pre-Season Training</div>
+    <div class="cover-quote-block">
+      <div class="cover-quote-mark"></div>
+      <div class="cover-quote-text">訓練不改變你的技術，<br>訓練改變你的身體對技術的反應。</div>
+    </div>
+    <div class="cover-sub-block">
+      <div class="cover-sub">SKI PRE-SEASON<br>Coach Plus</div>
+      <div class="cover-desc">含主要肌群標記、代償模式觀察與教練觀察重點。</div>
+      <div class="cover-meta-line">
+        <span>Version 1 · 2026</span>
+        <span>24 Movements</span>
+        <span>8 Categories</span>
+      </div>
+      <div class="physio-badge">
+        <div class="physio-dot"></div>
+        <span class="physio-text">SnowPlus Physio Approved</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-row">
+    <span class="brand">SNOWPLUS</span>
+    <span class="edition-tag">COACH EDITION</span>
+  </div>
+  <div class="masthead-rule"></div>
+  <div class="masthead-title">SKI<br>PRE-SEASON</div>
+  <div class="masthead-sub">24 MOVEMENTS · 8 CATEGORIES · COACH PLUS</div>
+</div>
+
+<!-- AXES -->
+<div class="axes">
+  <div class="axes-title">Training Axes · 訓練軸線</div>
+  <div class="axis-row"><span class="axis-num">A</span><span class="axis-text">踝關節複合體 — Dorsiflexion, Eversion &amp; Tibialis Control</span></div>
+  <div class="axis-row"><span class="axis-num">B</span><span class="axis-text">垂直負荷 — Extension Timing &amp; Eccentric Quad Control</span></div>
+  <div class="axis-row"><span class="axis-num">C</span><span class="axis-text">減速控制 — Edge Absorption &amp; Landing Control</span></div>
+  <div class="axis-row"><span class="axis-num">D</span><span class="axis-text">側向爆發力 — Hip Adductor Drive (Outside Ski Bias)</span></div>
+  <div class="axis-row"><span class="axis-num">E</span><span class="axis-text">旋轉分離 — Upper/Lower Body Decoupling</span></div>
+  <div class="axis-row"><span class="axis-num">F</span><span class="axis-text">髖關節分離 — Femoral IR/ER under Stable Pelvis</span></div>
+  <div class="axis-row"><span class="axis-num">G</span><span class="axis-text">單腳承重 — Outside Ski Stance Loading</span></div>
+  <div class="axis-row"><span class="axis-num">H</span><span class="axis-text">切刃轉換反應 — Pressure Transfer &amp; Multi-Directional Response</span></div>
+</div>
+
+<!-- A · ANKLE COMPLEX -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">A</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">踝關節複合體</div><div class="cat-name-en">ANKLE COMPLEX — Dorsiflexion, Eversion &amp; Tibialis Control</div></div>
+    </div>
+    <div class="cat-desc">踝背屈限制直接影響膝前傾角度，腓骨肌控制是外側刃穩定的地基。先評估 (01)，再神經激活 (02)，再強化腓骨肌 (03)。教練注意：A 組代償常常是 B/C 組問題的根源，不能跳過。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>01</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">踝背屈靠牆測試</div><div class="ex-en">Wall Ankle Dorsiflexion Test</div>
+    <div class="ex-desc">評估工具，不是訓練動作。左右對稱性比絕對值更重要。單側限制是膝外翻與壓刃不對稱的常見根源。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">評估目標</div><div class="chips"><span class="chip-p">踝背屈活動度</span><span class="chip-p">脛腓關節活動性</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">關聯限制</div><div class="chips"><span class="chip-s">腓腸肌緊繃（最常見）</span><span class="chip-s">距腓骨關節活動受限</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">1</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">5<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">評估</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">0</span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>腳趾距牆約 10 cm，腳跟不離地</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>膝蓋沿第二趾方向向牆推進</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>記錄左右膝蓋是否能碰到牆面</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>限制側優先做後續踝關節訓練</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">腳跟離地 → 踝背屈嚴重受限；膝蓋向外偏移 → 補償策略，非真正背屈改善。記錄左右差異，超過 2 cm 需在 A 組加強限制側。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>02</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">站姿踝部彈跳</div><div class="ex-en">Standing Ankle Bounce</div>
+    <div class="ex-desc">激活踝關節 SSC（伸展縮短循環），強化脛前肌離心控制，是壓刃轉換的神經預備動作。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">腓腸肌（SSC 彈性）</span><span class="chip-p">比目魚肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">脛前肌（離心制動）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">20</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">彈跳</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>站立，雙腳輕微屈膝</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>前腳掌彈起落地，腳跟不碰地</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>節奏規律，強調彈性，不要跳高</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>接觸地面時間越短越好</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">整個腳掌拍地（heel strike）→ SSC 未啟動，提示學員「腳跟不能碰地」；節奏不規律，每次高度不同 → 神經控制不穩定，降低節奏要求先建立一致性。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>03</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">阻力帶腓骨肌外翻</div><div class="ex-en">Banded Peroneal Eversion</div>
+    <div class="ex-desc">腓骨肌是外側刃穩定的主動肌。雙板特化訓練——單板版沒有這個動作，因為單板不需要獨立外翻控制。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">腓骨長肌</span><span class="chip-p">腓骨短肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">脛前肌（交互抑制）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">15<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>坐姿，阻力帶繞在前腳掌外側</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>腳掌向外翻，感受腓骨肌收縮</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>頂峰等 1 秒，慢速回到起始</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>動作來自踝關節，不是整條腿外旋</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">全腿外旋代替踝外翻 → 髖部代償，提示「只動腳踝，不動膝蓋」；動作幅度過小 → 阻力帶張力不夠或腓骨肌力量不足，先降低阻力帶難度。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">A · ANKLE COMPLEX</span><span class="sf-pg">01–03</span></div>
+</section>
+
+<!-- B · VERTICAL LOAD -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">B</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">垂直負荷</div><div class="cat-name-en">VERTICAL LOAD — Extension Timing &amp; Eccentric Quad Control</div></div>
+    </div>
+    <div class="cat-desc">雙板壓刃需要股四頭肌在高負荷下的離心控制。B04 建立離心基礎，B05 整合髖踝協調，B06 訓練 SSC 啟動速度。順序不能顛倒——爆發訓練前必須有離心控制基礎。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>04</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">離心慢速深蹲</div><div class="ex-en">Eccentric Slow Squat</div>
+    <div class="ex-desc">5 秒離心控制，訓練股四頭肌在壓刃過程中的負重控制能力。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（離心）</span><span class="chip-p">臀大肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌（膝蓋追蹤）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">5-0-1</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>雙腳肩寬，腳尖朝前或微朝外</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>五秒慢速下蹲到大腿平行地面</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>快速站起，完整伸展髖膝踝</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>膝蓋全程對齊腳尖，不內塌</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">膝蓋往內塌（valgus collapse）→ 臀中肌弱 + 踝受限，先回 A01 評估；下蹲時重心大量後移 → 踝背屈受限，提示微墊腳跟或先做踝活動度訓練。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>05</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">高腳杯深蹲</div><div class="ex-en">Goblet Squat</div>
+    <div class="ex-desc">前置負荷協助軀幹直立，整合髖踝協調。底部停頓強化「最低點」控制力。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌</span><span class="chip-p">臀大肌</span><span class="chip-p">核心</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">豎脊肌（軀幹直立）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>雙手握啞鈴胸前，手肘指向地面</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>深蹲時腳跟不離地（踝受限可微墊高）</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>底部停 1 秒，確認穩定後站起</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>軀幹保持直立，不前傾</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">軀幹過度前傾 → 踝受限或核心弱，若踝正常則加強核心 Dead Bug (E13)；腳跟翹起 → 確認是否需要 A01 踝評估，heel elevation 是補償踝背屈限制，不是「外八模擬」。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>06</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">深蹲跳</div><div class="ex-en">Squat Jump</div>
+    <div class="ex-desc">SSC 爆發訓練，需要 B04 離心控制建立後才做。對應雪上壓刃釋放動作的爆發時機。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（向心爆發）</span><span class="chip-p">腓腸肌（起跳）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌（落地穩定）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>下蹲到大腿平行，不停頓直接起跳</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>全力向上，手臂輔助擺動</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>落地膝蓋彎曲吸震，腳踝背屈</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>確認落地穩定後再做下一跳</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">落地單側塌陷 → 單側股四頭肌 / 臀中肌不足，先單腿訓練 G19–21；起跳力量左右不對稱 → 先做 B04 加強弱側離心控制再回來。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">B · VERTICAL LOAD</span><span class="sf-pg">04–06</span></div>
+</section>
+
+<!-- C · DECELERATION -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">C</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">減速控制</div><div class="cat-name-en">DECELERATION — Edge Absorption &amp; Landing Control</div></div>
+    </div>
+    <div class="cat-desc">落地控制是雙板膝蓋保護的核心。C 組三個動作從「雙腳雙側」→「單腳」→「單腳側向」遞進，對應壓刃減速的三個層次。膝蓋內塌是最高風險代償，立即介入。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>07</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">落地吸震</div><div class="ex-en">Landing Absorption</div>
+    <div class="ex-desc">從小台跳下，練習膝踝髖三關節同步彎曲吸收衝擊。切刃減速的基礎模式。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（離心）</span><span class="chip-p">臀大肌（髖鉸鏈）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腓腸肌</span><span class="chip-s">脛前肌（踝背屈）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">控制</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>站在小台上，腳尖向前</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>步下（不跳）落地，感受衝擊力</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>三關節同步彎曲，不要單一關節鎖緊</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>落地後靜止 2 秒確認穩定再重複</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">只有膝蓋彎（不含髖）→ 膝關節承受全部衝擊，膝蓋受傷風險高，提示「屁股往後坐」；骨盆後傾落地 → 胸廓和核心控制問題，退回 E13 Dead Bug 加強。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>08</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">單腿落地</div><div class="ex-en">Single-Leg Landing</div>
+    <div class="ex-desc">單腿版落地吸震，模擬外側腳在轉彎時的承重比例，強化外側刃控制。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（離心）</span><span class="chip-p">臀大肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌（額狀面控制）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">控制</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腳站在小台邊緣</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>輕跳落到同腳，彎膝吸震</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>落地後膝蓋不往內塌，對齊腳尖</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>外側腳（outside ski）優先訓練</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">落地膝內塌（valgus）→ 臀中肌弱，最常見，先做 F17 Side-Lying Clamshell 激活再回來；踝外翻塌陷 → 腓骨肌弱，加強 A03 Banded Eversion。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>09</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">側向跳穩定落地</div><div class="ex-en">Lateral Bound to Stick</div>
+    <div class="ex-desc">側向跳後完全靜止，訓練橫向動力鏈穩定，對應左右壓刃切換時的側向衝擊力。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌（側向推力）</span><span class="chip-p">股四頭肌（落地）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腓骨肌（踝穩定）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發+停</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腳側向爆發起跳，對側腳落地穩定</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>落地後停住 2 秒，不晃動</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>視線固定前方，不低頭看腳</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>落地瞬間腳踝背屈、膝蓋向前推</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">落地後持續搖晃 → 本體感覺不足，降低跳躍距離，先練穩定再練距離；落地後身體大幅前傾 → 髖穩定不足，加強 G19 Single-Leg RDL。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">C · DECELERATION</span><span class="sf-pg">07–09</span></div>
+</section>
+
+<!-- D · LATERAL POWER -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">D</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">側向爆發力</div><div class="cat-name-en">LATERAL POWER — Hip Adductor Drive (Outside Ski Bias)</div></div>
+    </div>
+    <div class="cat-desc">D 組是雙板課表最獨特的部分。髖內收肌鏈直接驅動外側刃壓力，這是單板版課表沒有的訓練軸線。Copenhagen Plank 是評估工具，也是訓練起點。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>10</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">Copenhagen Plank 等長</div><div class="ex-en">Copenhagen Plank Isometric</div>
+    <div class="ex-desc">懸空腿等長支撐，針對性訓練內收肌鏈穩定輸出，是外側刃壓力控制的深層基礎。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">髖內收肌群（adductor longus/brevis/magnus）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腰方肌（QL）</span><span class="chip-s">腹斜肌（側屈）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">HOLD</span><span class="tc-val">30<span class="tc-unit">秒/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">等長</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>側躺，上方腿搭在長凳或椅子上</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>髖部抬起，身體成一直線</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>下方腿可懸空（進階）或輕觸地面</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>感受大腿內側收縮，不用腰代償</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">骨盆下沉（側傾）→ 內收肌或核心不夠，降低難度：長凳高度調到膝關節位置（非腳踝）；支撐側踝部疼痛 → 長凳放置位置不對，上移至膝蓋附近。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>11</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">側向弓步</div><div class="ex-en">Lateral Lunge</div>
+    <div class="ex-desc">側向踏出訓練髖內收肌離心控制，模擬切刃時外側腿的承重動作。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（離心）</span><span class="chip-p">髖內收肌（離心拉伸）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌（站立腳）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>側向大步踏出，重心移到側向腳</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>踏出腳膝蓋對齊腳尖，不內塌</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>另一腳保持伸直，感受大腿內側拉伸</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>慢速回到站立，感受內收肌控制</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">弓步腳膝蓋往內塌 → 臀中肌弱，先加強 F17 Clamshell 再回來；弓步腳腳尖朝內 → 踝或髖旋轉控制問題，觀察踝外翻與髖內旋是否過多。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>12</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">側向跳</div><div class="ex-en">Lateral Bound</div>
+    <div class="ex-desc">爆發性側向跳躍，訓練髖外展與內收的爆發力轉換，對應左右快速切刃。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌（側向推力）</span><span class="chip-p">臀大肌</span><span class="chip-p">股四頭肌（落地）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腓骨肌（踝）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腳側向爆發起跳</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>對側腳落地吸震穩定</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>髖部保持水平，不傾斜</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>每次落地穩定後再起跳，不連跳</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">落地後髖持續側傾 → 臀中肌弱，加強 D10 Copenhagen Plank；落地瞬間膝蓋鎖死 → 不會主動吸震，提示「落地時要彎膝」，退回 C09 練習。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">D · LATERAL POWER</span><span class="sf-pg">10–12</span></div>
+</section>
+
+<!-- E · ROTATIONAL SEPARATION -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">E</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">旋轉分離</div><div class="cat-name-en">ROTATIONAL SEPARATION — Upper/Lower Body Decoupling</div></div>
+    </div>
+    <div class="cat-desc">上下半身分離能力是初學者與進階滑雪者最顯著的分水嶺。E 組從「抗旋轉基礎」→「骨盆固定主動旋轉」→「功能性抗旋 + 主動旋轉整合」三步遞進。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>13</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">死蟲式</div><div class="ex-en">Dead Bug</div>
+    <div class="ex-desc">抗旋轉核心基礎。所有旋轉分離訓練的前提，先確認學員核心控制能力。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">腹橫肌（深層核心）</span><span class="chip-p">多裂肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">豎脊肌（等長）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>仰臥，雙臂和雙腿都朝天花板</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>對側手腳同時向外伸展</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>核心持續收緊，腰椎不離地</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>每個動作 4 秒，控制呼吸，不憋氣</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">腰椎離地弓起 → 核心深層激活失敗，退回簡化版（只動手臂）；憋氣 → 內壓管理問題，提示「全程正常呼吸」，憋氣讓核心策略不穩定。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>14</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">半跪姿旋轉分離</div><div class="ex-en">Half-Kneeling Rotation</div>
+    <div class="ex-desc">骨盆固定，只轉胸椎。直接訓練雙板轉彎所需的上下半身解耦。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">胸椎多裂肌</span><span class="chip-p">半棘肌（胸椎旋轉）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腹斜肌</span><span class="chip-s">髖屈肌（跪姿穩定）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>半跪姿，前腳踩實，後膝跪地</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>雙手交叉胸前或持輕啞鈴</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>骨盆不動，只轉動胸椎和肩膀</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>旋轉到底部，停 1 秒感受上下分離</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">骨盆跟著旋轉 → 腰椎代償胸椎，提示「骨盆朝向固定，只有上半身轉」；旋轉幅度太小 → 胸椎活動度受限，在 E14 前先做胸椎 mobility（如側躺開書式）。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>15</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">站姿繩索旋轉分離</div><div class="ex-en">Standing Cable Rotational Separation</div>
+    <div class="ex-desc">站姿整合版：抵抗外拉力的同時主動旋轉，完整模擬雙板轉彎力學。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">腹內外斜肌（旋轉）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀大肌（站立腳）</span><span class="chip-s">臀中肌（骨盆穩定）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>繩索機一側站立，雙手持把</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>下半身固定，從胸椎主動旋轉</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>旋轉方向遠離繩索機（抵抗外拉力）</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>骨盆和膝蓋全程朝正前方</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">下半身跟著轉動 → 分離失敗，退回 E14 先建立骨盆固定的旋轉模式；身體明顯側傾 → 核心弱，降低繩索重量，優先確保姿勢質量。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">E · ROTATIONAL SEPARATION</span><span class="sf-pg">13–15</span></div>
+</section>
+
+<!-- F · HIP DISSOCIATION -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">F</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">髖關節分離</div><div class="cat-name-en">HIP DISSOCIATION — Femoral IR/ER under Stable Pelvis</div></div>
+    </div>
+    <div class="cat-desc">股骨旋轉控制是雙板轉向神經模式的核心。F 組重訓神經，不只重力量。F16 訓練骨盆穩定下的整合控制，F17 激活深層肌群，F18 載入負重強化神經模式。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>16</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">站姿髖飛機式</div><div class="ex-en">Standing Hip Airplane</div>
+    <div class="ex-desc">單腿站立骨盆旋轉，訓練髖外展外旋肌群穩定控制，是切刃時骨盆不傾斜的關鍵。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌</span><span class="chip-p">臀小肌</span><span class="chip-p">深層髖外旋肌群</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">膕繩肌（髖鉸鏈）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腿站立，支撐腳微彎</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>身體向前傾，對側腳後伸保持平衡</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>骨盆主動向上旋轉（支撐腳同側往上）</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>停 1–2 秒感受髖外旋肌群收縮</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">骨盆往支撐腳同側下沉（Trendelenburg）→ 臀中肌弱，先做 F17 Clamshell 激活；軀幹不能前傾（重心後移）→ 髖屈肌緊，先做髖屈肌伸展再做此動作。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>17</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">側臥蚌式</div><div class="ex-en">Side-Lying Clamshell</div>
+    <div class="ex-desc">激活臀中肌和深層髖外旋肌群，在壓刃時防止膝蓋內塌，維持骨盆在切弧時的穩定高度。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌</span><span class="chip-p">梨狀肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腹橫肌（骨盆穩定）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">15<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">30<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>側躺，膝蓋彎曲約 90 度，腳跟對齊</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>保持腳跟合攏，膝蓋向天花板打開</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>骨盆不後翻，旋轉來自髖關節</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>可加阻力帶在膝蓋上方增加難度</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">骨盆後翻（腰椎代替髖旋轉）→ 最常見，提示「腳跟貼牆做，骨盆不能離開牆面」；幅度過小（膝蓋幾乎不打開）→ 梨狀肌太緊，先做躺姿髖外旋伸展。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>18</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">負重站姿髖旋轉</div><div class="ex-en">Loaded Standing Hip IR/ER</div>
+    <div class="ex-desc">單腿站立主動股骨內外旋，模擬雙板轉向時的神經控制模式。骨盆穩定是前提。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">梨狀肌（外旋 ER）</span><span class="chip-p">臀中肌前束（內旋 IR）</span><span class="chip-p">臀小肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">股四頭肌（站立腳）</span><span class="chip-s">臀大肌</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">緩慢</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腿站立，手持啞鈴在胸前</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>支撐腳股骨主動向內旋轉（膝蓋轉向內側）</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>再反向外旋（膝蓋轉向外側）</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>骨盆全程保持水平，不跟著旋轉</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">骨盆旋轉代替股骨旋轉 → 最常見，提示「只動膝蓋方向，骨盆不動」，可讓學員一手扶牆輔助骨盆穩定；站立腳踝外翻塌陷 → 腓骨肌弱，加強 A03。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">F · HIP DISSOCIATION</span><span class="sf-pg">16–18</span></div>
+</section>
+
+<!-- G · SINGLE-LEG -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">G</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">單腳承重</div><div class="cat-name-en">SINGLE-LEG — Outside Ski Stance Loading</div></div>
+    </div>
+    <div class="cat-desc">外側腿在切刃時是主要承重腳，G 組建立「outside ski leg」的肌力儲備與本體感覺。G19 建立基礎髖控制，G20 大量單側負荷，G21 整合側向本體感覺。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>19</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">單腿羅馬尼亞硬舉</div><div class="ex-en">Single-Leg RDL</div>
+    <div class="ex-desc">單腿髖鉸鏈，訓練膕繩肌與臀肌協調控制，強化外側腳在彎曲狀態下的姿勢穩定。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">膕繩肌（離心）</span><span class="chip-p">臀大肌（髖伸展）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌（站立腳）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">2-1-2</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腿站立，支撐膝微彎</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>髖部主導前傾，後腳往後抬起</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>背部保持中立，不圓背</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>回到站立時臀部完全夾緊</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">圓背 → 髖屈肌緊或核心弱，先做髖屈肌伸展 + E13 Dead Bug；站立腳膝蓋鎖死（hyperextension）→ 提示微彎膝，鎖死會增加韌帶壓力。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>20</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">後腳抬高分腿蹲</div><div class="ex-en">Bulgarian Split Squat</div>
+    <div class="ex-desc">大量單側股四頭肌和臀肌離心負荷，直接模擬外側刃壓刃的承重情境。教練版課表中負荷最重的動作。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（離心）</span><span class="chip-p">臀大肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌（膝蓋追蹤）</span><span class="chip-s">腓骨肌（踝）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">3-0-1</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>後腳搭在長凳上，前腳向前踏出</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>慢速下蹲，前膝對齊腳尖</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>後膝不碰地，保持懸空</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>站起時前腳跟發力推地，不借後腳力量</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">前膝內塌 → 臀中肌弱，先做 F17 Clamshell 激活再回來；軀幹過度前傾 → 臀肌弱 + 核心不夠，降低重量，優先確保軀幹位置。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>21</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">單腿側向穩定</div><div class="ex-en">Single-Leg Lateral Stability</div>
+    <div class="ex-desc">單腳站在不穩定面或進行側向小踏，模擬外側腳在切刃衝擊下的本體感覺反應。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌</span><span class="chip-p">腓骨肌（側向踝穩定）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">股四頭肌</span><span class="chip-s">核心</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">3</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">10<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">控制</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">45<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腿站立，進行小幅側向踩踏或平衡板挑戰</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>腳踝保持穩定，不過度搖晃</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>視線固定前方，不低頭看腳</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>進階：閉眼或加平衡板</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">踝關節持續過度搖晃 → 腓骨肌弱，加強 A03 Banded Eversion；膝蓋鎖死不動 → 未使用關節吸震機制，提示「膝蓋微彎，用肌肉控制」。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">G · SINGLE-LEG</span><span class="sf-pg">19–21</span></div>
+</section>
+
+<!-- H · EDGE TRANSITION REACTIVITY -->
+<section class="category">
+  <div class="cat-header">
+    <div class="cat-index">
+      <span class="cat-letter">H</span><div class="cat-dot"></div>
+      <div><div class="cat-name-zh">切刃轉換反應</div><div class="cat-name-en">EDGE TRANSITION REACTIVITY — Pressure Transfer &amp; Multi-Directional Response</div></div>
+    </div>
+    <div class="cat-desc">H 組是整份課表的整合測試。前七組建立的所有能力——踝穩定、垂直負荷、側向爆發、旋轉分離、單腳控制——在 H 組同時被測試。代償出現代表前面某組需要加強。</div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>22</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">側向反應跳</div><div class="ex-en">Lateral Reactive Bound</div>
+    <div class="ex-desc">側向落地後立即反彈，不停頓，訓練快速邊對邊壓力轉移的反射鏈，是切刃換邊的地面版本。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌（推力）</span><span class="chip-p">股四頭肌（SSC）</span><span class="chip-p">腓腸肌（反應彈性）</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腓骨肌（踝）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">8<span class="tc-unit">/邊</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">反彈</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>單腳側向跳，對側腳落地不停頓立即反彈</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>落地接觸地面時間越短越好</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>身體重心保持穩定，不上下搖晃</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>節奏規律，感受彈性反射鏈建立</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">接觸時間太長（不彈，像深蹲再跳）→ SSC 未激活，退回 C09 先練落地控制，再做 A02 踝彈跳訓練 SSC；每次跳躍高度不一致 → 力量輸出不穩定，先降低距離確保一致性。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>23</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">深蹲跳穩定落地</div><div class="ex-en">Jump to Stabilization</div>
+    <div class="ex-desc">從深蹲起跳後完全靜止，訓練在高衝擊下快速「鎖定」全身，對應壓刃結束瞬間的穩定需求。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">股四頭肌（爆發向心 + 離心落地）</span><span class="chip-p">腓腸肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">臀中肌</span><span class="chip-s">核心（落地鎖定）</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6</span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">爆發+停</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">60<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>深蹲起跳，全力向上</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>落地後立即鎖定姿勢，靜止 3 秒</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>落地時三關節（踝膝髖）同步彎曲</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>評估落地穩定度，而非跳躍高度</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">落地後前後持續晃動 → 核心穩定不足，加強 E13 Dead Bug；落地膝蓋鎖死（完全不彎）→ 不吸震，膝蓋受傷風險高，提示「落地要彎膝，三關節同時動」。</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="ex-top"><div class="ex-no">NO.<b>24</b></div><div class="ex-coach-mark">COACH</div></div>
+    <div class="ex-zh">多向反應跳</div><div class="ex-en">Multi-Directional Reactive Jump</div>
+    <div class="ex-desc">教練指令觸發方向，訓練不預期情況下的快速換向能力，對應雪道突發地形的即時調整。</div>
+    <div class="muscle-block">
+      <div class="muscle-row"><div class="muscle-label">主要肌群 · Primary</div><div class="chips"><span class="chip-p">臀中肌（所有方向轉換）</span><span class="chip-p">股四頭肌</span></div></div>
+      <div class="muscle-row"><div class="muscle-label">次要穩定 · Stabilizer</div><div class="chips"><span class="chip-s">腓骨肌</span><span class="chip-s">核心</span></div></div>
+    </div>
+    <div class="ex-table">
+      <div class="tc"><span class="tc-label">SETS</span><span class="tc-val">4</span></div>
+      <div class="tc"><span class="tc-label">REPS</span><span class="tc-val">6<span class="tc-unit">次</span></span></div>
+      <div class="tc"><span class="tc-label">TEMPO</span><span class="tc-val">最快反應</span></div>
+      <div class="tc"><span class="tc-label">REST</span><span class="tc-val">90<span class="tc-unit">秒</span></span></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-head"><span class="kp-label">Key Points</span><div class="kp-rule"></div></div>
+      <div class="kp"><span class="kp-n">01</span><span>站立預備姿勢，保持彈性膝蓋</span></div>
+      <div class="kp"><span class="kp-n">02</span><span>等待外部指令（前 / 後 / 左 / 右）</span></div>
+      <div class="kp"><span class="kp-n">03</span><span>聽到指令後立即跳向該方向</span></div>
+      <div class="kp"><span class="kp-n">04</span><span>每次落地恢復預備姿勢，等待下一指令</span></div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-title">常見代償 · Coach Watch</div>
+      <div class="coach-body">反應延遲（聽到指令後先準備再動）→ 預備姿勢重心太低或不在前腳掌，提示「重心稍微前移，膝蓋彈性預備」；特定方向明顯較弱 → 找出對應類別的弱點做針對性加強（側向弱 → D 組，前後弱 → B/C 組）。</div>
+    </div>
+  </div>
+  <div class="sec-foot"><span class="sf-cat">H · EDGE TRANSITION REACTIVITY</span><span class="sf-pg">22–24</span></div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule">
+  <div class="schedule-title">Suggested Weekly Schedule · 建議週訓練排程</div>
+  <div class="schedule-en">8-Week Pre-Season Plan · Coach Reference</div>
+  <div class="callout">
+    <div class="callout-title">Phase 1 · Weeks 1–3 · 打基礎</div>
+    <div class="callout-body">A + B + C + F：踝評估 → 垂直離心 → 落地控制 → 髖分離<br><span class="mono" style="font-size:11px">每週 3 次 · 每次 50–60 分鐘 · 重點觀察代償</span></div>
+  </div>
+  <div class="callout" style="margin-top:12px">
+    <div class="callout-title">Phase 2 · Weeks 4–6 · 加入側向與旋轉</div>
+    <div class="callout-body">全部 A–H：加入 D 側向爆發 + E 旋轉分離 + G 單腳<br><span class="mono" style="font-size:11px">每週 4 次 · 每次 60–70 分鐘</span></div>
+  </div>
+  <div class="callout" style="margin-top:12px">
+    <div class="callout-title">Phase 3 · Weeks 7–8 · 雪季前衝刺</div>
+    <div class="callout-body">強調 D + G + H，降低離心組數，增加爆發組數。H24 多向反應跳可用於即時評估整合能力。<br><span class="mono" style="font-size:11px">每週 3–4 次 · 每次 45–55 分鐘</span></div>
+  </div>
+  <div style="margin-top:32px; padding-top:24px; border-top:1px solid var(--rule)">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-dim); letter-spacing:0.1em; text-transform:uppercase">SnowPlus · Ski Coach Plus · Version 1 · 2026</div>
+    <div style="font-size:12px; color:var(--ink-mid); margin-top:8px">A 組代償常是 B/C 組問題的根源。代償出現時，先退回前面類別確認基礎，不要強行進階。</div>
+  </div>
+</section>
+
+</body>
+</html>
