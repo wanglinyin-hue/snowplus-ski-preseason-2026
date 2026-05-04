@@ -129,17 +129,15 @@
     /* FINAL COVER IMAGE ROUTES */
     .final-cover-image { position: relative; width:100%; background:#EEE8DC; border-bottom:1px solid var(--border); overflow:hidden; }
     .final-cover-image img { display:block; width:100%; height:auto; }
-    .final-cover-badge { position:absolute; left:50%; transform:translateX(-50%); top:45%; display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border:1px solid rgba(255,255,255,.78); border-radius:999px; background:rgba(255,255,255,.20); color:#f6f7f7; font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; backdrop-filter:blur(4px); }
-    .final-cover-badge.dark { color:#343b4f; border-color:rgba(52,59,79,.28); background:rgba(246,247,247,.50); }
-    .final-cover-note { position:absolute; left:22px; bottom:18px; font-family:'JetBrains Mono', monospace; font-size:9px; letter-spacing:.12em; color:rgba(52,59,79,.55); text-transform:uppercase; }
-    @media (max-width:430px){ .final-cover-badge{font-size:9px; padding:5px 12px;} }
+    /* Open Real: Physio badge is baked into assets/open-real-cover.jpg. No HTML overlay badge. */
+    .final-cover-badge { display:none !important; }
+    .final-cover-note { display:none !important; }
 </style>
 </head>
 <body>
 <!-- COVER -->
 <section class="final-cover-image open-real-cover">
   <img src="../assets/open-real-cover.jpg" alt="SnowPlus Ski Pre-Season Open Real cover">
-  <div class="final-cover-badge dark">SnowPlus Physio Approved</div>
 </section>
 
 <!-- INTRO -->
