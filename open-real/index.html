@@ -132,9 +132,13 @@
     /* Open Real: Physio badge is baked into assets/open-real-cover.jpg. No HTML overlay badge. */
     .final-cover-badge { display:none !important; }
     .final-cover-note { display:none !important; }
+    .snowplus-app-back{position:fixed;left:14px;top:14px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border:1px solid rgba(26,26,26,.18);border-radius:999px;background:rgba(250,248,244,.92);backdrop-filter:blur(10px);color:#1A1A1A;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;font-size:12px;line-height:1;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+    .snowplus-app-back:hover{background:#fff}
+    @media print{.snowplus-app-back{display:none}}
 </style>
 </head>
 <body>
+<a class="snowplus-app-back" href="../">← Home</a>
 <!-- COVER -->
 <section class="final-cover-image open-real-cover">
   <img src="../assets/open-real-cover.jpg" alt="SnowPlus Ski Pre-Season Open Real cover">

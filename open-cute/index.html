@@ -133,9 +133,13 @@
     .final-cover-badge.dark { color:#343b4f; border-color:rgba(52,59,79,.28); background:rgba(246,247,247,.50); }
     .final-cover-note { position:absolute; left:22px; bottom:18px; font-family:'JetBrains Mono', monospace; font-size:9px; letter-spacing:.12em; color:rgba(52,59,79,.55); text-transform:uppercase; }
     @media (max-width:430px){ .final-cover-badge{font-size:9px; padding:5px 12px;} }
+    .snowplus-app-back{position:fixed;left:14px;top:14px;z-index:99999;display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border:1px solid rgba(26,26,26,.18);border-radius:999px;background:rgba(250,248,244,.92);backdrop-filter:blur(10px);color:#1A1A1A;text-decoration:none;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;font-size:12px;line-height:1;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+    .snowplus-app-back:hover{background:#fff}
+    @media print{.snowplus-app-back{display:none}}
 </style>
 </head>
 <body>
+<a class="snowplus-app-back" href="../">← Home</a>
 <!-- COVER -->
 <section class="final-cover-image open-cute-cover">
   <img src="../assets/open-cute-cover.png" alt="SnowPlus Ski Pre-Season Open Cute cover">
