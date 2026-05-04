@@ -127,8 +127,8 @@
   
 
     /* FINAL COVER IMAGE ROUTES */
-    .final-cover-image { position: relative; width:100%; background:#EEE8DC; border-bottom:1px solid var(--border); overflow:hidden; }
-    .final-cover-image img { display:block; width:100%; height:auto; }
+    .final-cover-image { position: relative; width:100%; height:100svh; min-height:640px; background:#EEE8DC; border-bottom:1px solid var(--border); overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .final-cover-image img { display:block; width:100%; height:100%; object-fit:contain; }
     /* Open Real: Physio badge is baked into assets/open-real-cover.jpg. No HTML overlay badge. */
     .final-cover-badge { display:none !important; }
     .final-cover-note { display:none !important; }
