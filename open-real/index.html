@@ -26,39 +26,6 @@
     .cover-quote { font-family: 'Noto Serif TC', serif; font-size: 15px; line-height: 1.75; color: var(--mid); border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 40px; font-style: italic; }
     .cover-foot { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--light); text-transform: uppercase; padding-top: 24px; border-top: 1px solid var(--border); }
 
-
-    /* FULL IMAGE COVER */
-    .cover-image-only { min-height: auto; padding: 0; border-bottom: 1px solid var(--border); background: #fff; }
-    .cover-image-only img { width: 100%; height: auto; display: block; }
-
-
-
-    /* RESPONSIVE HTML COVER - SHARP TEXT */
-    .real-cover-mobile { position: relative; min-height: 760px; overflow: hidden; background: #F7F3ED; border-bottom: 1px solid var(--border); }
-    .real-cover-mobile .cover-photo { position: absolute; top: 0; right: -138px; height: 100%; width: auto; z-index: 0; }
-    .real-cover-mobile .cover-wash { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(247,243,237,0.98) 0%, rgba(247,243,237,0.96) 42%, rgba(247,243,237,0.35) 63%, rgba(247,243,237,0) 100%); }
-    .real-cover-mobile .cover-band { position: absolute; left: 0; top: 0; bottom: 0; width: 48px; background: #111; z-index: 3; display: flex; align-items: center; justify-content: center; }
-    .real-cover-mobile .cover-band span { writing-mode: vertical-rl; transform: rotate(180deg); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .18em; color: #fff; text-transform: uppercase; }
-    .real-cover-mobile .cover-copy { position: relative; z-index: 4; padding: 52px 24px 36px 78px; max-width: 360px; }
-    .real-cover-mobile .eyebrow { font-family:'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color:#111; margin-bottom: 48px; white-space: nowrap; }
-    .real-cover-mobile .dot { color: var(--accent); margin: 0 10px; }
-    .real-cover-mobile .edition { font-family:'JetBrains Mono', monospace; font-size: 13px; letter-spacing:.11em; text-transform: uppercase; color: var(--accent); font-weight:700; margin-bottom: 22px; }
-    .real-cover-mobile .edition::after { content:''; display:block; width:40px; height:1px; background:var(--accent); margin-top:12px; }
-    .real-cover-mobile .title-ski { font-family: Impact, 'Arial Black', sans-serif; font-size: clamp(88px, 26vw, 124px); line-height:.82; letter-spacing:-.05em; color:#090909; margin-bottom:18px; }
-    .real-cover-mobile .title-sub { font-family: Impact, 'Arial Black', sans-serif; font-size: clamp(43px, 12vw, 58px); line-height:.9; letter-spacing:-.035em; color:#090909; margin-bottom:24px; white-space: nowrap; }
-    .real-cover-mobile .meta { font-family:'JetBrains Mono', monospace; font-size: 13px; letter-spacing:.08em; text-transform: uppercase; color:#111; margin-bottom: 60px; white-space: nowrap; }
-    .real-cover-mobile .meta .dot { margin: 0 12px; }
-    .real-cover-mobile .slogan { font-family: Impact, 'Arial Black', sans-serif; font-size: 30px; line-height: 1.15; color: var(--accent); margin-bottom: 250px; }
-    .real-cover-mobile .brand-logo { width: 96px; height:auto; display:block; opacity:.9; }
-    @media (max-width: 420px) {
-      .real-cover-mobile { min-height: 720px; }
-      .real-cover-mobile .cover-photo { right: -150px; }
-      .real-cover-mobile .cover-copy { padding-left: 74px; padding-right: 18px; }
-      .real-cover-mobile .eyebrow { font-size: 10px; margin-bottom: 42px; }
-      .real-cover-mobile .slogan { font-size: 27px; margin-bottom: 226px; }
-      .real-cover-mobile .brand-logo { width: 88px; }
-    }
-
     /* TOC */
     .toc { padding: 48px 32px; border-bottom: 1px solid var(--border); }
     .section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--light); text-transform: uppercase; margin-bottom: 32px; }
@@ -74,16 +41,22 @@
 
 
     /* INTRO / SAFETY / DIFFICULTY */
-    .intro { padding: 40px 32px; border-bottom: 1px solid var(--border); background: var(--bg); }
-    .intro-title { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
-    .intro-body { font-size: 13px; color: var(--mid); line-height: 1.8; margin-bottom: 18px; }
-    .intro-grid { display: grid; gap: 12px; margin: 20px 0; }
-    .intro-card { border: 1px solid var(--border-soft); border-radius: 10px; padding: 14px 16px; background: rgba(255,255,255,0.16); }
-    .intro-card-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
-    .intro-card-body { font-size: 12px; color: var(--mid); line-height: 1.65; }
-    .safety-note { margin-top: 18px; padding: 14px 16px; border-left: 3px solid var(--accent); background: var(--bg2); border-radius: 0 6px 6px 0; }
-    .safety-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
-    .safety-body { font-size: 12px; color: var(--mid); line-height: 1.7; }
+    .intro { padding: 34px 26px 38px; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, #EEE8DC 0%, #E9E2D5 100%); }
+    .intro-kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--light); text-transform: uppercase; margin-bottom: 18px; }
+    .intro-kicker::before { content: ''; width: 18px; height: 1px; background: var(--accent); display: block; }
+    .intro-panel { padding: 24px 22px; border: 1px solid rgba(26,26,26,0.09); border-radius: 22px; background: rgba(255,255,255,0.36); box-shadow: 0 16px 34px rgba(26,26,26,0.045); }
+    .intro-title { font-size: 24px; font-weight: 800; line-height: 1.42; letter-spacing: -0.03em; margin-bottom: 14px; color: var(--text); }
+    .intro-body { font-size: 14px; color: var(--mid); line-height: 1.95; margin-bottom: 0; }
+    .intro-divider { height: 1px; background: var(--border-soft); margin: 22px 0; }
+    .intro-grid { display: grid; gap: 10px; margin: 0; }
+    .intro-card { border: 1px solid rgba(26,26,26,0.08); border-radius: 15px; padding: 14px 15px; background: rgba(255,255,255,0.34); }
+    .intro-card-title { display:flex; align-items:center; gap:8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 7px; font-weight: 700; }
+    .intro-card-title::before { content:''; width:7px; height:7px; border-radius:50%; background: var(--accent); opacity:.75; }
+    .intro-card-body { font-size: 12.5px; color: var(--mid); line-height: 1.75; }
+    .safety-note { margin-top: 12px; padding: 15px 16px; border: 1px solid rgba(200,74,24,0.28); background: rgba(255,255,255,0.28); border-radius: 15px; }
+    .safety-title { display:flex; align-items:center; gap:8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin-bottom: 7px; font-weight: 700; }
+    .safety-title::before { content:'!'; display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border:1px solid var(--accent); border-radius:50%; font-size:10px; }
+    .safety-body { font-size: 12.5px; color: var(--mid); line-height: 1.75; }
     .difficulty { display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin: 2px 0 12px; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg2); }
     .difficulty-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--light); text-transform: uppercase; }
     .difficulty-val { font-size: 11px; font-weight: 700; color: var(--accent); }
@@ -153,55 +126,35 @@
     .spray { animation: sprayAnim 2s ease-in-out infinite; }
   
 
-    /* MOBILE REFINEMENT */
-    body { max-width: 430px; background: var(--bg); }
-    .cover-image-only.mobile-cover { background: #fff; }
-    .cover-image-only.mobile-cover img { width: 100%; height: auto; display: block; }
-    .toc { padding: 34px 22px; }
-    .intro, .category .cat-header, .exercise, .schedule { padding-left: 22px; padding-right: 22px; }
-    .intro-grid { grid-template-columns: 1fr; }
-    @media (max-width: 430px) {
-      body { max-width: 100%; }
-      .ex-table { display: grid; grid-template-columns: repeat(2, 1fr); }
-      .tc:nth-child(2) { border-right: none; }
-      .tc:nth-child(1), .tc:nth-child(2) { border-bottom: 1px solid var(--border); }
-    }
+    /* FINAL COVER IMAGE ROUTES */
+    .final-cover-image { position: relative; width:100%; background:#EEE8DC; border-bottom:1px solid var(--border); overflow:hidden; }
+    .final-cover-image img { display:block; width:100%; height:auto; }
+    .final-cover-badge { position:absolute; left:50%; transform:translateX(-50%); top:45%; display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border:1px solid rgba(255,255,255,.78); border-radius:999px; background:rgba(255,255,255,.20); color:#f6f7f7; font-family:'JetBrains Mono', monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; backdrop-filter:blur(4px); }
+    .final-cover-badge.dark { color:#343b4f; border-color:rgba(52,59,79,.28); background:rgba(246,247,247,.50); }
+    .final-cover-note { position:absolute; left:22px; bottom:18px; font-family:'JetBrains Mono', monospace; font-size:9px; letter-spacing:.12em; color:rgba(52,59,79,.55); text-transform:uppercase; }
+    @media (max-width:430px){ .final-cover-badge{font-size:9px; padding:5px 12px;} }
 </style>
 </head>
 <body>
-
 <!-- COVER -->
-<section class="refined-cover-mobile">
-  <img class="refined-cover-img" src="../assets/open-real-cover.jpg" alt="SnowPlus Ski Pre-Season Open Edition cover">
-  <div class="physio-cover-badge"><span class="badge-dot"></span><span>SnowPlus Physio Approved</span></div>
-  <div class="logo-mask">
-    <img src="../assets/open-real-brand.jpg" alt="SnowPlus Winter Sports logo">
-  </div>
+<section class="final-cover-image open-real-cover">
+  <img src="../assets/open-real-cover.jpg" alt="SnowPlus Ski Pre-Season Open Real cover">
+  <div class="final-cover-badge dark">SnowPlus Physio Approved</div>
 </section>
-
 
 <!-- INTRO -->
 <section class="intro">
-  <div class="section-label">Before You Start · 使用前說明</div>
-  <div class="intro-title">這不是一般健身課表，而是雪季前的身體準備。</div>
-  <div class="intro-body">這本 Open Edition 適合想在雪季前恢復腿部控制、提升壓刃穩定、減少膝蓋不適、改善左右轉不對稱的滑雪者。訓練目標不是把動作做累，而是讓踝、膝、髖、核心與單腳承重能力更容易支援雪上的轉彎技術。</div>
-  <div class="intro-grid">
-    <div class="intro-card">
-      <div class="intro-card-title">Beginner</div>
-      <div class="intro-card-body">可作為大多數學員的入門動作。先追求穩定、對稱與可控制，不追求速度或高度。</div>
+  <div class="intro-kicker">Before You Start · 使用前說明</div>
+  <div class="intro-panel">
+    <div class="intro-title">這不是一般健身課表，<br>而是雪季前的身體準備。</div>
+    <div class="intro-body">這本 Open Edition 適合想在雪季前恢復腿部控制、提升壓刃穩定、減少膝蓋不適、改善左右轉不對稱的滑雪者。訓練目標不是把動作做累，而是讓踝、膝、髖、核心與單腳承重能力更容易支援雪上的轉彎技術。</div>
+    <div class="intro-divider"></div>
+    <div class="intro-grid">
+      <div class="intro-card"><div class="intro-card-title">Beginner · 入門</div><div class="intro-card-body">可作為大多數學員的入門動作。先追求穩定、對稱與可控制，不追求速度或高度。</div></div>
+      <div class="intro-card"><div class="intro-card-title">Intermediate · 中階</div><div class="intro-card-body">需要基本運動習慣與單腳穩定能力。若出現膝內塌、腰代償或疼痛，請退回較基礎版本。</div></div>
+      <div class="intro-card"><div class="intro-card-title">Advanced · 進階</div><div class="intro-card-body">建議在教練或物理治療師確認動作品質後再執行，尤其是跳躍、反應與高負荷單腳動作。</div></div>
     </div>
-    <div class="intro-card">
-      <div class="intro-card-title">Intermediate</div>
-      <div class="intro-card-body">需要基本運動習慣與單腳穩定能力。若出現膝內塌、腰代償或疼痛，請退回較基礎版本。</div>
-    </div>
-    <div class="intro-card">
-      <div class="intro-card-title">Advanced</div>
-      <div class="intro-card-body">建議在教練或物理治療師確認動作品質後再執行，尤其是跳躍、反應與高負荷單腳動作。</div>
-    </div>
-  </div>
-  <div class="safety-note">
-    <div class="safety-title">Safety Note</div>
-    <div class="safety-body">若有急性膝、髖、踝疼痛，或近期手術、韌帶傷害、明顯腫脹與不穩定感，請先諮詢醫療或物理治療專業人員，再開始此課表。</div>
+    <div class="safety-note"><div class="safety-title">Safety Note · 安全提示</div><div class="safety-body">若有急性膝、髖、踝疼痛，或近期手術、韌帶傷害、明顯腫脹與不穩定感，請先諮詢醫療或物理治療專業人員，再開始此課表。</div></div>
   </div>
 </section>
 

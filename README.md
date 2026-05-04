@@ -1,14 +1,9 @@
-# SnowPlus Ski Pre-Season Deploy Package v3
+# SnowPlus Ski Pre-Season Training 2026
 
 Routes:
-- `/open-cute/` animated cute student version
-- `/open-real/` real-cover public version
-- `/coach-plus/` coach reference version
+- `/` landing selector
+- `/open-cute/` Open Edition cute cover
+- `/open-real/` Open Edition real cover
+- `/coach-plus/` Coach Plus
 
-Give `_handoff/CODEX_HANDOFF.md` to Codex before final app output.
-
-
-## v4 Routes
-- `/open-cute/` Ski Open Cute, Japanese minimal cute visual
-- `/open-real/` Ski Open Real,真人版
-- `/coach-plus/` Coach Plus, internal coach version
+Static app. Deploy directly to GitHub Pages / Netlify / Vercel.
