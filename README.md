@@ -1,4 +1,4 @@
-# SnowPlus Ski Pre-Season Training 2026
+# SnowPlus Ski Off-Season Training 2026
 
 Routes:
 - `/` landing selector
